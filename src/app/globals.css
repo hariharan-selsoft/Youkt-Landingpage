@@ -116,3 +116,72 @@
   background-image: radial-gradient(rgba(20, 21, 23, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* Bespoke Section Alignment Animations */
+@keyframes alignContentIn {
+  0% {
+    opacity: 0;
+    transform: translateY(36px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes alignContentInReverse {
+  0% {
+    opacity: 0;
+    transform: translateY(-36px) scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes alignCardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-align-in {
+  animation: alignContentIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-align-in-reverse {
+  animation: alignContentInReverse 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-card-in {
+  animation: alignCardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Custom Scrollbar for Inner Stage Containers */
+.custom-stage-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(20, 21, 23, 0.15) transparent;
+}
+
+.custom-stage-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-stage-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-stage-scroll::-webkit-scrollbar-thumb {
+  background: rgba(20, 21, 23, 0.15);
+  border-radius: 9999px;
+}
+
+.custom-stage-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(20, 21, 23, 0.28);
+}

@@ -3,29 +3,32 @@
 import { useState } from "react";
 import {
   Play,
-  CheckCircle2,
-  Terminal,
-  Zap,
   RotateCcw,
   Code,
   Shield,
   Database,
   Check,
   Sparkles,
+  ChevronDown,
+  Cpu,
 } from "lucide-react";
+
+interface SimulatorProps {
+  onNavigate?: (sectionId: string) => void;
+}
 
 type Preset = {
   id: string;
   title: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   duration: string;
   tokens: string;
   description: string;
-  steps: { name: string; status: "done" | "running" | "ready"; detail: string }[];
+  steps: { name: string; detail: string }[];
   output: string[];
 };
 
-export default function Simulator() {
+export default function Simulator({ onNavigate }: SimulatorProps) {
   const presets: Preset[] = [
     {
       id: "natural-talent-search",
@@ -35,10 +38,10 @@ export default function Simulator() {
       tokens: "BM25 Registry",
       description: 'Turn requests into validated searches: "Find senior React engineers available this month."',
       steps: [
-        { name: "Natural-Language Query Parsing", status: "done", detail: "Turned natural language request into structured, validated candidate query" },
-        { name: "BM25 Dynamic Operation Registry", status: "done", detail: "Discovered talent search capabilities without overwhelming the AI" },
-        { name: "Tenant-Aware Authorization", status: "done", detail: "Strict multi-tenant data isolation and safe candidate data access verified" },
-        { name: "Candidate Shortlist Prepared", status: "done", detail: "Surfaced verified candidates; awaiting recruiter review" },
+        { name: "Natural-Language Query Parsing", detail: "Turned natural language request into structured, validated candidate query" },
+        { name: "BM25 Dynamic Operation Registry", detail: "Discovered talent search capabilities without overwhelming the AI" },
+        { name: "Tenant-Aware Authorization", detail: "Strict multi-tenant data isolation and safe candidate data access verified" },
+        { name: "Candidate Shortlist Prepared", detail: "Surfaced verified candidates; awaiting recruiter review" },
       ],
       output: [
         "> Initializing Youkt Recruitment Copilot...",
@@ -57,10 +60,10 @@ export default function Simulator() {
       tokens: "Stateful Temporal",
       description: "Automate complex recruitment workflows with persistent context and reliable execution.",
       steps: [
-        { name: "Stateful AI Workflows", status: "done", detail: "Coordinated specialized sourcing, screening, and assessment agents" },
-        { name: "Persistent Conversational Threads", status: "done", detail: "Retained complete recruiter context across hiring workflows" },
-        { name: "Checkpoint Recovery", status: "done", detail: "Temporal durable workflow state saved with 99.9% delivery reliability" },
-        { name: "AI Observability & Telemetry", status: "done", detail: "Sub-second execution trace logs streamed to enterprise dashboard" },
+        { name: "Stateful AI Workflows", detail: "Coordinated specialized sourcing, screening, and assessment agents" },
+        { name: "Persistent Conversational Threads", detail: "Retained complete recruiter context across hiring workflows" },
+        { name: "Checkpoint Recovery", detail: "Temporal durable workflow state saved with 99.9% delivery reliability" },
+        { name: "AI Observability & Telemetry", detail: "Sub-second execution trace logs streamed to enterprise dashboard" },
       ],
       output: [
         "> Initializing Multi-Agent Recruitment Orchestration Mesh...",
@@ -79,10 +82,10 @@ export default function Simulator() {
       tokens: "Approval Gate",
       description: "When an action affects hiring status, candidates, or offer letters, workflow pauses for approval.",
       steps: [
-        { name: "AI Suggests Action", status: "done", detail: "The AI prepares the action and drafts offer letter with benchmark compensation" },
-        { name: "Recruiter Review", status: "done", detail: "The recruiter reviews candidate profile, scorecard evaluations, and offer letter" },
-        { name: "Recruiter Approve", status: "done", detail: "The recruiter approves the action with single-click authorization" },
-        { name: "Execute Action", status: "done", detail: "Only then does the action execute: Offer letter dispatched and ATS updated" },
+        { name: "AI Suggests Action", detail: "The AI prepares the action and drafts offer letter with benchmark compensation" },
+        { name: "Recruiter Review", detail: "The recruiter reviews candidate profile, scorecard evaluations, and offer letter" },
+        { name: "Recruiter Approve", detail: "The recruiter approves the action with single-click authorization" },
+        { name: "Execute Action", detail: "Only then does the action execute: Offer letter dispatched and ATS updated" },
       ],
       output: [
         "> Initializing Human-in-the-Loop Approval Gate...",
@@ -97,24 +100,23 @@ export default function Simulator() {
 
   const [selectedPreset, setSelectedPreset] = useState<Preset>(presets[0]);
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [completed, setCompleted] = useState<boolean>(true);
+  const [lastRunTime, setLastRunTime] = useState<string>("Just now");
 
   const handleRun = () => {
     setIsRunning(true);
-    setCompleted(false);
     setTimeout(() => {
       setIsRunning(false);
-      setCompleted(true);
-    }, 900);
+      setLastRunTime("Simulated " + selectedPreset.duration);
+    }, 850);
   };
 
   return (
-    <section id="simulator" className="py-24 sm:py-32 relative bg-[#FAF8F5]">
-      <div id="ai-automation" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-14">
+    <section id="ai-automation" className="pt-6 pb-16 sm:pt-10 sm:pb-20 relative bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF9E6] border border-[#FCE29A] text-[#8B640A] text-xs font-semibold mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[#F6C445] fill-[#F6C445]" />
-            Recruitment Copilot & Orchestration
+            Live Copilot & Orchestration Engine
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-[#141517] tracking-tight mb-4 leading-tight">
             Recruitment Intelligence{" "}
@@ -122,10 +124,10 @@ export default function Simulator() {
               That Works With Your Team
             </span>
           </h2>
-          <p className="text-base sm:text-lg text-[#5E6168]">
-            Use natural language to discover talent, understand candidate pipelines, and prepare recruitment actions while keeping recruiters in control.
+          <p className="text-base sm:text-lg text-[#5E6168] leading-relaxed">
+            Use natural language to discover talent, understand candidate pipelines, and prepare recruitment actions while keeping recruiters firmly in control.
           </p>
-          <div className="mt-3 text-xs font-bold text-[#8B640A] bg-[#FFF9E6] inline-block px-3 py-1 rounded-full border border-[#FCE29A]">
+          <div className="mt-4 text-xs font-bold text-[#8B640A] bg-[#FFF9E6] inline-block px-3.5 py-1.5 rounded-full border border-[#FCE29A]">
             AI that assists. Humans stay in control.
           </div>
         </div>
@@ -153,7 +155,7 @@ export default function Simulator() {
         </div>
 
         {/* Interactive Console Card */}
-        <div className="max-w-5xl mx-auto bg-white rounded-3xl p-4 sm:p-7 border border-[#EAE6DF] shadow-[0_12px_40px_-8px_rgba(20,21,23,0.06)]">
+        <div className="max-w-5xl mx-auto bg-white rounded-3xl p-5 sm:p-8 border border-[#EAE6DF] shadow-[0_12px_40px_-8px_rgba(20,21,23,0.06)]">
           {/* Top Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-6 border-b border-[#F0ECE4] gap-4">
             <div>
@@ -180,8 +182,8 @@ export default function Simulator() {
                 <span>{isRunning ? "Executing..." : "Execute Workflow"}</span>
               </button>
               <button
-                onClick={() => setCompleted(true)}
-                className="p-2 bg-[#F7F5F0] hover:bg-[#EAE6DF] text-[#141517] rounded-full border border-[#EAE6DF] transition-colors"
+                onClick={() => setLastRunTime("Reset")}
+                className="p-2 bg-[#F7F5F0] hover:bg-[#EAE6DF] text-[#141517] rounded-full border border-[#EAE6DF] transition-colors cursor-pointer"
                 title="Reset simulation"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -200,7 +202,7 @@ export default function Simulator() {
               {selectedPreset.steps.map((st, i) => (
                 <div
                   key={st.name}
-                  className="p-3.5 rounded-2xl bg-[#F7F5F0] border border-[#EAE6DF] flex items-start gap-3"
+                  className="p-3.5 rounded-2xl bg-[#F7F5F0] border border-[#EAE6DF] flex items-start gap-3 hover:border-[#DDD8CE] transition-all"
                 >
                   <div className="w-5 h-5 rounded-full bg-[#141517] text-white flex items-center justify-center shrink-0 mt-0.5">
                     <Check className="w-3 h-3 text-[#F6C445]" />
@@ -215,7 +217,7 @@ export default function Simulator() {
                   </div>
                 </div>
               ))}
-              <div className="p-3 rounded-2xl bg-[#FFF9E6] border border-[#FCE29A] text-[11px] text-[#8B640A] leading-relaxed font-medium">
+              <div className="p-3.5 rounded-2xl bg-[#FFF9E6] border border-[#FCE29A] text-[11px] text-[#8B640A] leading-relaxed font-medium">
                 The AI prepares the action. The recruiter reviews it. The recruiter approves it. Only then does the action execute.
               </div>
             </div>
@@ -227,7 +229,7 @@ export default function Simulator() {
                   <span>youkt-copilot://session</span>
                   <span className="flex items-center gap-1.5 text-[#F6C445]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#F6C445] animate-ping" />
-                    Telemetric Stream
+                    Telemetric Stream ({lastRunTime})
                   </span>
                 </div>
                 {selectedPreset.output.map((line, idx) => (
@@ -247,11 +249,25 @@ export default function Simulator() {
               </div>
 
               <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-[#8E929E]">
-                <span>Stateful Context: {selectedPreset.tokens}</span>
+                <span className="flex items-center gap-1.5">
+                  <Cpu className="w-3.5 h-3.5 text-[#F6C445]" />
+                  Stateful Context: {selectedPreset.tokens}
+                </span>
                 <span className="text-[#3DD68C] font-semibold">✓ Human-in-the-Loop Governed</span>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Sequential Flow Indicator Prompt */}
+        <div className="mt-14 text-center">
+          <button
+            onClick={() => onNavigate?.("how-it-works")}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-[#EAE6DF] text-xs font-bold text-[#141517] shadow-xs hover:bg-[#F4F1EA] hover:border-[#DDD8CE] transition-all group cursor-pointer"
+          >
+            <span>Next: How It Works</span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#F6C445] group-hover:translate-y-0.5 transition-transform" />
+          </button>
         </div>
       </div>
     </section>
