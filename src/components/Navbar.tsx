@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Menu, X, Lock, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -10,6 +11,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ activeSection, onSelectSection }: NavbarProps) {
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
@@ -42,9 +44,16 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
     { id: "platform", label: "Platform" },
     { id: "solutions", label: "Solutions" },
     { id: "ai-automation", label: "AI & Automation" },
-    { id: "how-it-works", label: "How It Works" },
     { id: "resources", label: "Resources" },
   ];
+
+  const handleNavSelect = (sectionId: string) => {
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      router.push(`/#${sectionId}`);
+    } else {
+      onSelectSection(sectionId);
+    }
+  };
 
   return (
     <>
@@ -55,7 +64,7 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
             
             {/* Brand Logo & Name */}
             <button
-              onClick={() => onSelectSection("platform")}
+              onClick={() => handleNavSelect("platform")}
               className="flex items-center gap-2.5 group cursor-pointer text-left focus:outline-none"
               aria-label="Youkt Home"
             >
@@ -85,13 +94,13 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
             </button>
 
             {/* Desktop Navigation Links with Smooth Animated Yellow Underscore */}
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8 whitespace-nowrap">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.id;
                 return (
                   <button
                     key={link.id}
-                    onClick={() => onSelectSection(link.id)}
+                    onClick={() => handleNavSelect(link.id)}
                     className={`relative text-[14px] lg:text-[15px] transition-colors cursor-pointer py-1 ${
                       isActive
                         ? "text-[#141517] font-semibold"
@@ -117,7 +126,7 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
             </nav>
 
             {/* Right Action Cluster (Login + CTA Pill without yellow dot) */}
-            <div className="hidden sm:flex items-center gap-3 lg:gap-4">
+            <div className="hidden sm:flex items-center gap-3 lg:gap-4 whitespace-nowrap">
               {/* Login Button */}
               <button
                 onClick={() => setLoginModalOpen(true)}
@@ -128,7 +137,7 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
 
               {/* Primary Dark Pill Button */}
               <button
-                onClick={() => onSelectSection("resources")}
+                onClick={() => handleNavSelect("resources")}
                 className="px-5 sm:px-6 py-2 sm:py-2.5 bg-[#141517] hover:bg-[#282A2F] text-white text-xs sm:text-sm font-semibold rounded-full shadow-[0_2px_8px_rgba(20,21,23,0.12)] hover:shadow-[0_4px_16px_rgba(20,21,23,0.22)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
               >
                 Try Youkt free
@@ -144,7 +153,7 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
                 Log in
               </button>
               <button
-                onClick={() => onSelectSection("resources")}
+                onClick={() => handleNavSelect("resources")}
                 className="px-3.5 py-1.5 bg-[#141517] text-white text-xs font-semibold rounded-full shadow-xs"
               >
                 Try free
@@ -170,7 +179,7 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
                     <button
                       key={link.id}
                       onClick={() => {
-                        onSelectSection(link.id);
+                        handleNavSelect(link.id);
                         setMobileMenuOpen(false);
                       }}
                       className={`w-full text-left px-4 py-2.5 rounded-xl text-sm transition-colors cursor-pointer flex items-center justify-between ${
@@ -190,7 +199,7 @@ export default function Navbar({ activeSection, onSelectSection }: NavbarProps) 
               <div className="pt-3 mt-3 border-t border-[#EAE6DF]/60 flex flex-col gap-2">
                 <button
                   onClick={() => {
-                    onSelectSection("resources");
+                    handleNavSelect("resources");
                     setMobileMenuOpen(false);
                   }}
                   className="w-full py-2.5 bg-[#141517] text-white text-sm font-semibold rounded-full shadow-sm cursor-pointer"

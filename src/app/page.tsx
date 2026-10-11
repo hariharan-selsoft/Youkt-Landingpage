@@ -4,8 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Solutions from "@/components/Solutions";
-import Simulator from "@/components/Simulator";
-import Workflow from "@/components/Workflow";
+import AiAutomationSection from "@/components/AiAutomationSection";
 import Resources from "@/components/Resources";
 import UniversalHeroBackground from "@/components/UniversalHeroBackground";
 import ScrollPlacingSection from "@/components/ScrollPlacingSection";
@@ -14,8 +13,7 @@ const SECTIONS = [
   { id: "platform", label: "Platform", num: "01" },
   { id: "solutions", label: "Solutions", num: "02" },
   { id: "ai-automation", label: "AI & Automation", num: "03" },
-  { id: "how-it-works", label: "How It Works", num: "04" },
-  { id: "resources", label: "Resources", num: "05" },
+  { id: "resources", label: "Resources", num: "04" },
 ];
 
 export default function Home() {
@@ -97,17 +95,12 @@ export default function Home() {
           <Solutions onNavigate={scrollToSection} />
         </ScrollPlacingSection>
 
-        {/* 03. AI & Automation (Interactive Simulator) */}
+        {/* 03. AI & Automation (Distinctive Command Center Hub) */}
         <ScrollPlacingSection id="ai-automation" delay={0.08} yOffset={36}>
-          <Simulator onNavigate={scrollToSection} />
+          <AiAutomationSection onNavigate={scrollToSection} />
         </ScrollPlacingSection>
 
-        {/* 04. How It Works (End-to-End Workflow Lifecycle) */}
-        <ScrollPlacingSection id="how-it-works" delay={0.08} yOffset={36}>
-          <Workflow onNavigate={scrollToSection} />
-        </ScrollPlacingSection>
-
-        {/* 05. Resources (Enterprise Proof, FAQ & Security & Footer) */}
+        {/* 04. Resources (Editorial Hub, Product Overview, AI & Security, FAQ, Footer) */}
         <ScrollPlacingSection id="resources" delay={0.08} yOffset={36}>
           <Resources onNavigate={scrollToSection} />
         </ScrollPlacingSection>
