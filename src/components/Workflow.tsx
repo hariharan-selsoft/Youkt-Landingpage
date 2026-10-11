@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ChevronDown, Sparkles, ArrowRight, Layers, ShieldCheck, Zap, Bot } from "lucide-react";
+import { Check, Sparkles, ArrowRight, Layers, ShieldCheck, Zap, Bot } from "lucide-react";
 
 interface WorkflowProps {
   onNavigate?: (sectionId: string) => void;
@@ -163,17 +163,6 @@ export default function Workflow({ onNavigate }: WorkflowProps) {
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
-
-        {/* Sequential Flow Indicator Prompt */}
-        <div className="mt-14 text-center">
-          <button
-            onClick={() => onNavigate?.("resources")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-[#EAE6DF] text-xs font-bold text-[#141517] shadow-xs hover:bg-[#F4F1EA] hover:border-[#DDD8CE] transition-all group cursor-pointer"
-          >
-            <span>Next: Resources & Verification</span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#F6C445] group-hover:translate-y-0.5 transition-transform" />
-          </button>
         </div>
       </div>
     </section>

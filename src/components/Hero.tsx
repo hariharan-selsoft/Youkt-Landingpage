@@ -1,100 +1,152 @@
 "use client";
 
-import {
-  ArrowRight,
-  Play,
-  CheckCircle2,
-  ChevronDown,
-  Bot,
-  Cpu,
-  Layers,
-  ShieldCheck,
-} from "lucide-react";
-import YouktLogo from "@/components/YouktLogo";
+import { useState, useRef, useEffect } from "react";
+import { CheckCircle2 } from "lucide-react";
+import { AnimatePresence } from "motion/react";
+import HeroCarouselCard, { HeroCardData } from "@/components/HeroCarouselCard";
 
 interface HeroProps {
   onNavigate?: (sectionId: string) => void;
 }
 
 export default function Hero({ onNavigate }: HeroProps) {
-  const capabilities = [
-    { label: "Autonomous Copilot", icon: Bot },
-    { label: "Dynamic Pipeline ATS", icon: Layers },
-    { label: "Objective Skill Benchmarks", icon: Cpu },
-    { label: "Strict Tenant Isolation", icon: ShieldCheck },
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const isTransitioningRef = useRef(false);
+
+  const heroCards: HeroCardData[] = [
+    {
+      id: "meet-youkt",
+      badge: "MEET YOUKT",
+      headingPrefix: "What if hiring could run",
+      headingAccent: "smarter?",
+      heading: "What if hiring could run smarter?",
+      description:
+        "Youkt brings recruitment, talent intelligence, assessments, and AI-powered automation together in one unified platform.",
+      ctaText: "Explore Youkt",
+      ctaTarget: "solutions",
+      image: "/Card 1.png",
+      imageAlt: "Meet Youkt - Autonomous Talent Intelligence Platform",
+      chips: [
+        { label: "Autonomous Copilot", iconName: "bot" },
+        { label: "Dynamic Pipeline ATS", iconName: "layers" },
+        { label: "Skill Assessments", iconName: "target" },
+      ],
+      floatingMetric: {
+        title: "70% Faster Shortlisting",
+        subtitle: "Autonomous Sourcing Engine",
+      },
+    },
+    {
+      id: "who-uses-youkt",
+      badge: "BUILT FOR EVERYONE",
+      headingPrefix: "One platform.",
+      headingAccent: "Every hiring team.",
+      heading: "One platform. Every hiring team.",
+      description:
+        "From recruiters and hiring managers to candidates and enterprises, Youkt connects everyone to make hiring simpler, smarter, and more transparent.",
+      ctaText: "Discover Who It's For",
+      ctaTarget: "solutions",
+      image: "/card 2.png",
+      imageAlt: "Who Uses Youkt - Built for recruiters, hiring managers, candidates, and enterprises",
+      chips: [
+        { label: "Recruiters & Sourcing", iconName: "bot" },
+        { label: "Hiring Managers", iconName: "layers" },
+        { label: "Enterprise Scale", iconName: "shield" },
+      ],
+      floatingMetric: {
+        title: "Unified Hiring Hub",
+        subtitle: "Cross-Functional Collaboration",
+      },
+    },
+    {
+      id: "whats-new",
+      badge: "AI-POWERED INNOVATION",
+      headingPrefix: "Meet your",
+      headingAccent: "AI recruitment copilot.",
+      heading: "Meet your AI recruitment copilot.",
+      description:
+        "Discover intelligent talent search, automated recruitment workflows, and human-approved AI actions that make hiring faster, smarter, and more efficient.",
+      ctaText: "Explore What's New",
+      ctaTarget: "ai-automation",
+      image: "/Card 3.png",
+      imageAlt: "Meet your AI recruitment copilot - AI-Powered Innovation in Youkt",
+      chips: [
+        { label: "AI-Powered Talent Search", iconName: "bot" },
+        { label: "Autonomous Workflow Automation", iconName: "workflow" },
+        { label: "Human-in-the-Loop Approvals", iconName: "shield" },
+      ],
+      floatingMetric: {
+        title: "AI Recruitment Copilot",
+        subtitle: "Verified Action Workflows",
+      },
+    },
   ];
+
+  const currentCard = heroCards[activeCardIndex];
+
+  // Auto-advance carousel after a set delay (5 seconds)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveCardIndex((prev) => (prev + 1) % heroCards.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [activeCardIndex, heroCards.length]);
+
+  // Touch swipe support horizontally on card for mobile/tablets
+  const touchStartXRef = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || isTransitioningRef.current) return;
+    const diff = e.changedTouches[0].clientX - touchStartXRef.current;
+    touchStartXRef.current = null;
+
+    if (diff < -40) {
+      // Swiped Left -> next card
+      isTransitioningRef.current = true;
+      setActiveCardIndex((prev) => (prev + 1) % heroCards.length);
+      setTimeout(() => {
+        isTransitioningRef.current = false;
+      }, 420);
+    } else if (diff > 40) {
+      // Swiped Right -> prev card
+      isTransitioningRef.current = true;
+      setActiveCardIndex((prev) => (prev - 1 + heroCards.length) % heroCards.length);
+      setTimeout(() => {
+        isTransitioningRef.current = false;
+      }, 420);
+    }
+  };
 
   return (
     <section
       id="platform"
-      className="relative w-full h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] flex flex-col justify-between items-center py-3 sm:py-6 px-4 sm:px-6 lg:px-8 overflow-hidden bg-transparent select-none"
+      className="relative w-full min-h-[calc(100vh-5rem)] flex flex-col justify-between items-center pt-2 pb-6 px-3 sm:px-6 lg:px-8 bg-transparent select-none"
     >
-      {/* Central Interactive Content Area */}
-      <div className="flex-1 w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
-        {/* Centered YOUKT Wordmark with Inverting Part-by-Part Hover */}
-        <div className="flex flex-col items-center justify-center mb-3 sm:mb-4 animate-align-in">
-          <YouktLogo
-            className="h-12 sm:h-16 md:h-20 w-auto drop-shadow-sm select-none"
-            darkColor="#141517"
-            yellowColor="#F6C445"
+      {/* Central Hero Carousel Container - Balanced Width, Centered Horizontally */}
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="flex-1 w-full max-w-[1240px] xl:max-w-[1300px] 2xl:max-w-[1360px] mx-auto flex flex-col items-center justify-center cursor-default"
+      >
+        {/* Animated Card Component */}
+        <AnimatePresence mode="wait">
+          <HeroCarouselCard
+            key={currentCard.id}
+            card={currentCard}
+            cardIndex={activeCardIndex}
+            totalCards={heroCards.length}
+            onNavigate={onNavigate}
+            onSelectIndex={(idx) => setActiveCardIndex(idx)}
           />
+        </AnimatePresence>
 
-          {/* Simple 'Your Hiring Partner' Text Matching Title Style */}
-          <p className="text-base sm:text-lg md:text-xl font-medium tracking-tight text-[#1E2024] mt-1.5 sm:mt-2">
-            Your Hiring Partner
-          </p>
-        </div>
-
-        {/* Elevated Modern Typography Headline */}
-        <h1 className="text-2xl sm:text-4xl lg:text-[2.85rem] font-black text-[#111215] tracking-tight leading-[1.14] mb-2.5 sm:mb-3">
-          Transform Your Hiring Velocity{" "}
-          <span className="block mt-0.5 sm:mt-1 text-xl sm:text-3xl lg:text-[2.1rem] font-light text-[#5B5E66] tracking-tight">
-            with Autonomous Intelligence
-          </span>
-        </h1>
-
-        {/* Supporting Subtitle */}
-        <p className="text-xs sm:text-sm md:text-base text-[#52555C] max-w-2xl mx-auto leading-relaxed mb-4 sm:mb-5 font-normal">
-          Youkt unifies modern ATS workflows, client CRM, automated skill assessments, and stateful AI Copilot orchestration into one lightning-fast, enterprise-secure platform.
-        </p>
-
-        {/* Value Highlights Pill Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mb-4 sm:mb-6">
-          {capabilities.map((pillar) => {
-            const Icon = pillar.icon;
-            return (
-              <div
-                key={pillar.label}
-                className="flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/95 border border-[#E8E4DC] text-[11px] sm:text-xs font-medium text-[#40434A] shadow-xs hover:border-[#F6C445] hover:shadow-[0_2px_10px_rgba(246,196,69,0.2)] transition-all cursor-default"
-              >
-                <Icon className="w-3.5 h-3.5 text-[#B8870A]" />
-                <span>{pillar.label}</span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Action CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto mb-4 sm:mb-5">
-          <button
-            onClick={() => onNavigate?.("resources")}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 sm:px-7 sm:py-3 rounded-full text-xs sm:text-sm font-bold text-[#141517] bg-[#F6C445] hover:bg-[#EDB735] shadow-[0_4px_16px_rgba(246,196,69,0.38)] hover:shadow-[0_6px_22px_rgba(246,196,69,0.5)] transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-          >
-            <span>Schedule a Demo</span>
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </button>
-
-          <button
-            onClick={() => onNavigate?.("ai-automation")}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold text-[#141517] bg-white hover:bg-[#F4F1EA] border border-[#E2DDD3] shadow-xs hover:border-[#D1C9BC] transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
-          >
-            <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#141517] fill-[#141517]" />
-            <span>Launch Live Simulator</span>
-          </button>
-        </div>
-
-        {/* Trust Indicators */}
-        <div className="flex flex-wrap items-center justify-center gap-y-1 gap-x-4 sm:gap-x-6 text-[10px] sm:text-xs text-[#6B6D74]">
+        {/* Compact Trust Indicators Row - Finished right below the card */}
+        <div className="flex flex-wrap items-center justify-center gap-y-1 gap-x-4 sm:gap-x-6 text-[10px] sm:text-[11px] text-[#6B6D74] mt-2.5 sm:mt-3 mb-1 shrink-0">
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#141517]" />
             <span>No credit card required</span>
@@ -110,17 +162,6 @@ export default function Hero({ onNavigate }: HeroProps) {
             <span>100% Logical Tenant Isolation</span>
           </div>
         </div>
-      </div>
-
-      {/* Sequential Flow Indicator Prompt to Explore Next Section */}
-      <div className="w-full text-center pt-1 pb-1">
-        <button
-          onClick={() => onNavigate?.("solutions")}
-          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/90 border border-[#EAE6DF] text-[11px] sm:text-xs font-bold text-[#141517] shadow-xs hover:bg-[#F4F1EA] hover:border-[#DDD8CE] transition-all group cursor-pointer"
-        >
-          <span>Next: Explore Solutions</span>
-          <ChevronDown className="w-3.5 h-3.5 text-[#F6C445] group-hover:translate-y-0.5 transition-transform" />
-        </button>
       </div>
     </section>
   );

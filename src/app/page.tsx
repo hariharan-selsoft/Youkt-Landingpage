@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Solutions from "@/components/Solutions";
 import Simulator from "@/components/Simulator";
 import Workflow from "@/components/Workflow";
 import Resources from "@/components/Resources";
-import SectionNav from "@/components/SectionNav";
 import UniversalHeroBackground from "@/components/UniversalHeroBackground";
+import ScrollPlacingSection from "@/components/ScrollPlacingSection";
 
 const SECTIONS = [
   { id: "platform", label: "Platform", num: "01" },
@@ -20,205 +20,97 @@ const SECTIONS = [
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<string>("platform");
-  const [direction, setDirection] = useState<"next" | "prev">("next");
-  const isTransitioningRef = useRef<boolean>(false);
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-  const touchStartY = useRef<number | null>(null);
+  const isScrollingProgrammatically = useRef<boolean>(false);
 
-  const activeIndex = SECTIONS.findIndex((s) => s.id === activeSection);
+  // Smooth scroll to target section with sticky navbar offset compensation
+  const scrollToSection = useCallback((targetId: string) => {
+    setActiveSection(targetId);
+    isScrollingProgrammatically.current = true;
 
-  const navigateToSection = useCallback(
-    (targetId: string) => {
-      const targetIdx = SECTIONS.findIndex((s) => s.id === targetId);
-      if (targetIdx === -1 || targetId === activeSection || isTransitioningRef.current) return;
+    const el = document.getElementById(targetId);
+    if (el) {
+      const navOffset = 76; // Navbar height + margin offset
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - navOffset;
 
-      isTransitioningRef.current = true;
-      setDirection(targetIdx > activeIndex ? "next" : "prev");
-      setActiveSection(targetId);
-
-      // Reset scroll of stage container to top for clean alignment
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop = 0;
-      }
-
-      // 650ms cooldown prevents rapid multi-jump from trackpad inertia
-      setTimeout(() => {
-        isTransitioningRef.current = false;
-      }, 650);
-    },
-    [activeSection, activeIndex]
-  );
-
-  const handleNext = useCallback(() => {
-    if (activeIndex < SECTIONS.length - 1) {
-      navigateToSection(SECTIONS[activeIndex + 1].id);
-    }
-  }, [activeIndex, navigateToSection]);
-
-  const handlePrev = useCallback(() => {
-    if (activeIndex > 0) {
-      navigateToSection(SECTIONS[activeIndex - 1].id);
-    }
-  }, [activeIndex, navigateToSection]);
-
-  // Wheel / Trackpad scroll detection with single-page snap on hero & boundary checking on others
-  const handleWheel = useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
-      if (isTransitioningRef.current) return;
-
-      // 1. When on Hero page, it is fixed in a single page (no inner scroll required).
-      // Any scroll down immediately moves to next section!
-      if (activeSection === "platform") {
-        if (e.deltaY > 15) {
-          handleNext();
-        }
-        return;
-      }
-
-      const container = scrollContainerRef.current;
-      if (!container) return;
-
-      const isScrollable = container.scrollHeight > container.clientHeight + 25;
-      const isAtBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 20;
-      const isAtTop = container.scrollTop <= 15;
-
-      // Scrolling Down
-      if (e.deltaY > 20) {
-        if (!isScrollable || isAtBottom) {
-          if (activeIndex < SECTIONS.length - 1) {
-            handleNext();
-          }
-        }
-      }
-      // Scrolling Up
-      else if (e.deltaY < -20) {
-        if (!isScrollable || isAtTop) {
-          if (activeIndex > 0) {
-            handlePrev();
-          }
-        }
-      }
-    },
-    [activeSection, activeIndex, handleNext, handlePrev]
-  );
-
-  // Touch swipe support for mobile/tablets
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (touchStartY.current === null || isTransitioningRef.current) return;
-    const diff = e.changedTouches[0].clientY - touchStartY.current;
-    touchStartY.current = null;
-
-    if (activeSection === "platform") {
-      if (diff < -30) {
-        handleNext();
-      }
-      return;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth",
+      });
     }
 
-    const container = scrollContainerRef.current;
-    if (!container) return;
+    // Cooldown to prevent scrollspy conflict while animating smoothly
+    setTimeout(() => {
+      isScrollingProgrammatically.current = false;
+    }, 800);
+  }, []);
 
-    const isScrollable = container.scrollHeight > container.clientHeight + 25;
-    const isAtBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 25;
-    const isAtTop = container.scrollTop <= 20;
-
-    if (diff < -40) {
-      // Swiped UP -> scroll DOWN
-      if (!isScrollable || isAtBottom) {
-        handleNext();
-      }
-    } else if (diff > 40) {
-      // Swiped DOWN -> scroll UP
-      if (!isScrollable || isAtTop) {
-        handlePrev();
-      }
-    }
-  };
-
-  // Keyboard navigation
+  // ScrollSpy: Dynamically update activeSection indicator in top navbar based on window scroll position
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (["ArrowDown", "PageDown"].includes(e.key)) {
-        if (activeSection === "platform") {
-          handleNext();
-          return;
-        }
-        const container = scrollContainerRef.current;
-        if (!container || container.scrollTop + container.clientHeight >= container.scrollHeight - 25) {
-          handleNext();
-        }
-      } else if (["ArrowUp", "PageUp"].includes(e.key)) {
-        if (activeSection === "platform") return;
-        const container = scrollContainerRef.current;
-        if (!container || container.scrollTop <= 20) {
-          handlePrev();
+    const handleScroll = () => {
+      if (isScrollingProgrammatically.current) return;
+
+      const scrollPosition = window.scrollY + 180; // Offset benchmark for navbar line
+      const sectionElements = SECTIONS.map((sec) => ({
+        id: sec.id,
+        element: document.getElementById(sec.id),
+      })).filter((item) => item.element !== null);
+
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const item = sectionElements[i];
+        if (item.element) {
+          const top = item.element.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(item.id);
+            break;
+          }
         }
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeSection, handleNext, handlePrev]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col text-[#141517] selection:bg-[#F6C445]/30 selection:text-[#141517] relative">
-      {/* Universal Hero Background Layer (Applied to Hero and every other page) */}
+    <div className="min-h-screen w-full flex flex-col text-[#141517] selection:bg-[#F6C445]/30 selection:text-[#141517] relative bg-[#FAF8F5]">
+      {/* Universal Hero Background Layer (Fixed backdrop across the entire single page) */}
       <UniversalHeroBackground />
 
-      {/* Sticky Top Navbar */}
+      {/* Sticky Glassmorphic Top Navbar */}
       <Navbar
         activeSection={activeSection}
-        onSelectSection={navigateToSection}
+        onSelectSection={scrollToSection}
       />
 
-      {/* Floating Right Deck Navigator */}
-      <SectionNav
-        sections={SECTIONS}
-        activeSection={activeSection}
-        onSelectSection={navigateToSection}
-        onNext={handleNext}
-        onPrev={handlePrev}
-      />
+      {/* Single Continuous Landing Page with Content Placing Effect on Scroll */}
+      <main className="w-full relative z-10 flex-1 flex flex-col">
+        {/* 01. Platform (Hero Carousel) */}
+        <ScrollPlacingSection id="platform" delay={0.05} yOffset={20}>
+          <Hero onNavigate={scrollToSection} />
+        </ScrollPlacingSection>
 
-      {/* Main Alignment Stage Container */}
-      <main
-        ref={scrollContainerRef}
-        onWheel={handleWheel}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        className="flex-1 w-full overflow-y-auto custom-stage-scroll relative focus:outline-none z-10"
-        tabIndex={0}
-      >
-        <div
-          key={activeSection}
-          className={`w-full min-h-full ${
-            direction === "next" ? "animate-align-in" : "animate-align-in-reverse"
-          }`}
-        >
-          {activeSection === "platform" && (
-            <Hero onNavigate={navigateToSection} />
-          )}
+        {/* 02. Solutions (Roles & Connected Ecosystem) */}
+        <ScrollPlacingSection id="solutions" delay={0.08} yOffset={36}>
+          <Solutions onNavigate={scrollToSection} />
+        </ScrollPlacingSection>
 
-          {activeSection === "solutions" && (
-            <Solutions onNavigate={navigateToSection} />
-          )}
+        {/* 03. AI & Automation (Interactive Simulator) */}
+        <ScrollPlacingSection id="ai-automation" delay={0.08} yOffset={36}>
+          <Simulator onNavigate={scrollToSection} />
+        </ScrollPlacingSection>
 
-          {activeSection === "ai-automation" && (
-            <Simulator onNavigate={navigateToSection} />
-          )}
+        {/* 04. How It Works (End-to-End Workflow Lifecycle) */}
+        <ScrollPlacingSection id="how-it-works" delay={0.08} yOffset={36}>
+          <Workflow onNavigate={scrollToSection} />
+        </ScrollPlacingSection>
 
-          {activeSection === "how-it-works" && (
-            <Workflow onNavigate={navigateToSection} />
-          )}
-
-          {activeSection === "resources" && (
-            <Resources onNavigate={navigateToSection} />
-          )}
-        </div>
+        {/* 05. Resources (Enterprise Proof, FAQ & Security & Footer) */}
+        <ScrollPlacingSection id="resources" delay={0.08} yOffset={36}>
+          <Resources onNavigate={scrollToSection} />
+        </ScrollPlacingSection>
       </main>
     </div>
   );

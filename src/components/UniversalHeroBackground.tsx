@@ -1,14 +1,10 @@
 "use client";
 
 import React from "react";
-import YellowDotsCanvas from "@/components/YellowDotsCanvas";
 
 export default function UniversalHeroBackground() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#FAF8F5]">
-      {/* Dynamic Interactive Yellow Dots Canvas (responds to mousemove across all pages) */}
-      <YellowDotsCanvas />
-
       {/* Top-Left Organic Yellow Shade Wave (from Wireframe Sketch) */}
       <div className="absolute -top-16 -left-16 sm:-top-24 sm:-left-24 w-[380px] sm:w-[620px] h-[380px] sm:h-[620px] opacity-85">
         <svg viewBox="0 0 500 500" className="w-full h-full filter blur-[1px]">

@@ -9,7 +9,6 @@ import {
   Database,
   Check,
   Sparkles,
-  ChevronDown,
   Cpu,
 } from "lucide-react";
 
@@ -28,7 +27,7 @@ type Preset = {
   output: string[];
 };
 
-export default function Simulator({ onNavigate }: SimulatorProps) {
+export default function Simulator(_props: SimulatorProps) {
   const presets: Preset[] = [
     {
       id: "natural-talent-search",
@@ -257,17 +256,6 @@ export default function Simulator({ onNavigate }: SimulatorProps) {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Sequential Flow Indicator Prompt */}
-        <div className="mt-14 text-center">
-          <button
-            onClick={() => onNavigate?.("how-it-works")}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-[#EAE6DF] text-xs font-bold text-[#141517] shadow-xs hover:bg-[#F4F1EA] hover:border-[#DDD8CE] transition-all group cursor-pointer"
-          >
-            <span>Next: How It Works</span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#F6C445] group-hover:translate-y-0.5 transition-transform" />
-          </button>
         </div>
       </div>
     </section>
