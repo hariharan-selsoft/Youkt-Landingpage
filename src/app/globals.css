@@ -44,7 +44,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     text-wrap: balance;
   }
 
@@ -190,9 +193,12 @@
 
 /* Subtle Floating Animation for Hero Cards */
 @keyframes floatCardSlow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-6px);
   }
@@ -212,6 +218,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .animate-float-card,
   .animate-pulse,
   .animate-ping {
