@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Youkt | Autonomous Multi-Agent AI Orchestration Platform",
+  title: "Youkt | Multi-Tenant Recruiting Workspace",
   description:
-    "Youkt unifies modern ATS workflows, client CRM, automated skill assessments, and stateful AI Copilot orchestration into one lightning-fast, enterprise-secure platform.",
+    "Youkt brings Client CRM, Candidate CRM, Job Orders, custom pipelines, technical assessments, interview scheduling, offers, onboarding, and a Candidate Careers Portal into one role-scoped platform.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased bg-[#FAF8F5] text-[#141517] min-h-screen selection:bg-[#F6C445]/30 selection:text-[#141517]">
+      <body className="antialiased bg-[#FFFFFF] text-[#141517] min-h-screen selection:bg-[#F6C445]/35 selection:text-[#141517]">
         {children}
       </body>
     </html>
