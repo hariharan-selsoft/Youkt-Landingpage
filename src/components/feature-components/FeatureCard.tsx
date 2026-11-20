@@ -14,7 +14,7 @@ interface FeatureCardProps {
   onClick?: () => void;
 }
 
-export const FeatureCard: React.FC<FeatureCardProps> = ({
+export const FeatureCard: React.FC<FeatureCardProps> = React.memo(({
   position,
   feature,
   cardSize,
@@ -24,11 +24,12 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   const absPos = Math.abs(position);
 
   // Skip rendering cards far outside the viewport track
-  if (absPos > 3.6) {
+  if (absPos > 3.0) {
     return null;
   }
 
-  const isCenter = absPos < 0.4;
+  const isCenter = absPos < 0.45;
+  const isNearCenter = absPos < 1.1;
   const Icon = feature.icon;
   const spread = cardSpread ?? cardSize * 0.95;
 
@@ -38,7 +39,15 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   const rotate = Math.max(-5, Math.min(5, position * 2.8));
   const scale = Math.max(0.82, 1 - absPos * 0.08);
   const zIndex = Math.round(50 - absPos * 8);
-  const opacity = absPos > 2.8 ? Math.max(0, 1 - (absPos - 2.8) / 0.7) : absPos > 0.6 ? 0.72 : 1;
+
+  // Smooth continuous opacity curve without sudden steps
+  let opacity = 1;
+  if (absPos > 2.2) {
+    opacity = Math.max(0, 0.72 * (1 - (absPos - 2.2) / 0.8));
+  } else if (absPos > 0.4) {
+    const factor = Math.min(1, (absPos - 0.4) / 0.5);
+    opacity = 1 - factor * 0.28;
+  }
 
   const cardHeight = Math.round(cardSize * 1.24);
 
@@ -46,8 +55,9 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
     <div
       onClick={onClick}
       className={cn(
-        "absolute left-1/2 top-1/2 cursor-pointer transition-all duration-300 select-none flex flex-col overflow-hidden",
+        "absolute left-1/2 top-1/2 cursor-pointer select-none flex flex-col overflow-hidden",
         "bg-white rounded-[26px] sm:rounded-[30px] border",
+        "transition-[border-color,box-shadow] duration-250 ease-out",
         isCenter
           ? "border-[#F2D27A] shadow-[0_24px_50px_-12px_rgba(246,196,69,0.30),0_12px_24px_-6px_rgba(20,21,23,0.06),0_0_0_1px_rgba(242,210,122,0.45)]"
           : "border-[#EAE6DF] shadow-[0_12px_32px_-10px_rgba(0,0,0,0.06)] hover:border-[#F2D27A]/80 hover:opacity-90"
@@ -88,6 +98,9 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
             mouseInteraction={isCenter}
             swellOnClick={isCenter}
             lightMode={true}
+            paused={!isNearCenter}
+            quality="low"
+            dpr={1.2}
           />
         </div>
 
@@ -159,6 +172,8 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
       </div>
     </div>
   );
-};
+});
+
+FeatureCard.displayName = "FeatureCard";
 
 export default FeatureCard;

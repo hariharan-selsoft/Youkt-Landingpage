@@ -8,12 +8,12 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Initialize Lenis with slow, buttery smooth inertia
+    // Initialize Lenis with responsive, buttery smooth inertia
     const lenis = new Lenis({
-      duration: 1.8, // Slower, luxurious smooth scroll
+      duration: 1.2, // Responsive, silky smooth inertia
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth exponential deceleration
       smoothWheel: true,
-      touchMultiplier: 1.2,
+      touchMultiplier: 1.5,
       infinite: false,
     });
 

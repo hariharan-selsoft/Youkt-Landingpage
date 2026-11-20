@@ -388,10 +388,10 @@ export default function GradientWaves({
     dpr: Math.max(0.5, dpr),
   };
   const settingsRef = useRef(settings);
-  settingsRef.current = settings;
   const wakeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
+    settingsRef.current = settings;
     wakeRef.current?.();
   });
 

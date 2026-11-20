@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { useScroll, useSpring, useMotionValueEvent } from "motion/react";
+import React, { useRef, useState, useEffect } from "react";
+import { useScroll, useMotionValueEvent } from "motion/react";
 import { FeatureStaggerDeck } from "./FeatureStaggerDeck";
 import { YOUKT_FEATURE_LIST } from "./feature-data";
 
@@ -18,14 +18,14 @@ export const FeatureSection: React.FC<FeatureSectionProps> = () => {
     offset: ["start start", "end end"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 42,
-    damping: 20,
-    mass: 0.85,
-    restDelta: 0.0001,
-  });
+  useEffect(() => {
+    const current = scrollYProgress.get();
+    if (typeof current === "number") {
+      setScrollProgress(Math.max(0, Math.min(1, current)));
+    }
+  }, [scrollYProgress]);
 
-  useMotionValueEvent(smoothProgress, "change", (latest) => {
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const clamped = Math.max(0, Math.min(1, latest));
     setScrollProgress(clamped);
   });
@@ -42,7 +42,7 @@ export const FeatureSection: React.FC<FeatureSectionProps> = () => {
 
     const lenis = (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { duration?: number }) => void } }).__lenis;
     if (lenis) {
-      lenis.scrollTo(targetY, { duration: 1.8 });
+      lenis.scrollTo(targetY, { duration: 1.2 });
     } else {
       window.scrollTo({
         top: targetY,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { FeatureItem, YOUKT_FEATURE_LIST } from "./feature-data";
 import { FeatureCard } from "./FeatureCard";
 
@@ -48,15 +48,18 @@ export const FeatureStaggerDeck: React.FC<FeatureStaggerDeckProps> = ({
 
   // Build a continuous padded sequence of indices from -3 to numCards + 3
   // This guarantees silky smooth linear scroll without any modulo teleporting or jumping
-  const paddedCards: { key: string; feature: FeatureItem; jIndex: number }[] = [];
-  for (let j = -3; j <= numCards + 3; j++) {
-    const itemIndex = ((j % numCards) + numCards) % numCards;
-    paddedCards.push({
-      key: `card-seq-${j}`,
-      feature: features[itemIndex],
-      jIndex: j,
-    });
-  }
+  const paddedCards = useMemo(() => {
+    const cards: { key: string; feature: FeatureItem; jIndex: number }[] = [];
+    for (let j = -3; j <= numCards + 3; j++) {
+      const itemIndex = ((j % numCards) + numCards) % numCards;
+      cards.push({
+        key: `card-seq-${j}`,
+        feature: features[itemIndex],
+        jIndex: j,
+      });
+    }
+    return cards;
+  }, [features, numCards]);
 
   return (
     <div
@@ -78,7 +81,7 @@ export const FeatureStaggerDeck: React.FC<FeatureStaggerDeckProps> = ({
         {paddedCards.map(({ key, feature, jIndex }) => {
           const position = jIndex - currentTarget;
           // Skip if beyond visual threshold
-          if (Math.abs(position) > 3.6) return null;
+          if (Math.abs(position) > 3.0) return null;
 
           return (
             <div key={key} className="pointer-events-auto">
