@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-[#FFFFFF] text-[#141517] min-h-screen selection:bg-[#F6C445]/35 selection:text-[#141517]">
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );

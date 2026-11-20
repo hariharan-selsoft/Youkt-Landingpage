@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import MetricsRow from "@/components/MetricsRow";
-import FeatureSplit from "@/components/FeatureSplit";
+import { FeatureSection } from "@/components/feature-components";
 import AnalyticsBento from "@/components/AnalyticsBento";
 import CopilotSection from "@/components/CopilotSection";
 import Resources from "@/components/Resources";
@@ -39,15 +39,20 @@ export default function Home() {
       const elementRect = el.getBoundingClientRect().top;
       const offsetPosition = elementRect - bodyRect - navOffset;
 
-      window.scrollTo({
-        top: Math.max(0, offsetPosition),
-        behavior: "smooth",
-      });
+      const lenis = typeof window !== "undefined" ? (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { duration?: number }) => void } }).__lenis : undefined;
+      if (lenis) {
+        lenis.scrollTo(Math.max(0, offsetPosition), { duration: 1.6 });
+      } else {
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: "smooth",
+        });
+      }
     }
 
     setTimeout(() => {
       isScrollingProgrammatically.current = false;
-    }, 800);
+    }, 1600);
   }, []);
 
   const triggerHighlight = useCallback((sectionId: string) => {
@@ -95,8 +100,8 @@ export default function Home() {
         {/* Core Platform Guarantees */}
         <MetricsRow />
 
-        {/* 2. Features — All 9 Product Pillars */}
-        <FeatureSplit onNavigate={scrollToSection} />
+        {/* 2. Features — Interactive Staggered Pillars Deck */}
+        <FeatureSection onNavigate={scrollToSection} />
 
         {/* 3. Solutions — By Team + Team Insights */}
         <AnalyticsBento

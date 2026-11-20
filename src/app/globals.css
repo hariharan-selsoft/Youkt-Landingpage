@@ -1,7 +1,32 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-ring: hsl(var(--ring));
+}
+
 @layer base {
   :root {
+    /* Standard shadcn HSL tokens */
+    --background: 0 0% 100%;
+    --foreground: 220 10% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 10% 8%;
+    --primary: 43 90% 52%;
+    --primary-foreground: 220 10% 8%;
+    --muted: 40 20% 96%;
+    --muted-foreground: 220 5% 40%;
+    --border: 38 18% 89%;
+    --ring: 43 90% 52%;
+
     /* Preserved YOUKT Brand Palette */
     --youkt-bg: #FFFFFF;
     --youkt-bg-warm: #FAF8F5;

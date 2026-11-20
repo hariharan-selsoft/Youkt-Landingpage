@@ -109,11 +109,10 @@ export default function Navbar({
                 <button
                   key={link.id}
                   onClick={() => handleNavSelect(link.id)}
-                  className={`relative px-3.5 py-2 rounded-lg text-[13.5px] transition-colors cursor-pointer whitespace-nowrap ${
-                    isActive
-                      ? "text-[#141517] font-semibold"
-                      : "text-[#5E6168] hover:text-[#141517] hover:bg-[#FAF8F5] font-medium"
-                  }`}
+                  className={`relative px-3.5 py-2 rounded-lg text-[13.5px] transition-colors cursor-pointer whitespace-nowrap ${isActive
+                    ? "text-[#141517] font-semibold"
+                    : "text-[#5E6168] hover:text-[#141517] hover:bg-[#FAF8F5] font-medium"
+                    }`}
                 >
                   <span>{link.label}</span>
                   {isActive && (
@@ -193,11 +192,10 @@ export default function Navbar({
                         handleNavSelect(link.id);
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm flex items-center justify-between transition-colors cursor-pointer ${
-                        isActive
-                          ? "bg-[#FAF8F5] text-[#141517] font-semibold"
-                          : "text-[#5E6168] hover:bg-[#FAF8F5] hover:text-[#141517] font-medium"
-                      }`}
+                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm flex items-center justify-between transition-colors cursor-pointer ${isActive
+                        ? "bg-[#FAF8F5] text-[#141517] font-semibold"
+                        : "text-[#5E6168] hover:bg-[#FAF8F5] hover:text-[#141517] font-medium"
+                        }`}
                     >
                       <span>{link.label}</span>
                       {isActive && (
