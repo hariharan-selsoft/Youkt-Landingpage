@@ -60,9 +60,9 @@ export default function Footer({ onNavigate, onOpenLogin }: FooterProps) {
 
   return (
     <footer className="relative w-full bg-white border-t border-[#EAE6DF] text-[#141517]">
-      <div className="max-w-[1080px] mx-auto px-4 sm:px-6 lg:px-8 pt-14 sm:pt-18 pb-10 sm:pb-12">
+      <div className="max-w-[1080px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-8 sm:pb-12">
         {/* Top Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 sm:pb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-10 sm:pb-14">
           {/* Left: Official YOUKT Logo + Short Summary + Social Circles */}
           <div className="lg:col-span-5 space-y-5">
             <button

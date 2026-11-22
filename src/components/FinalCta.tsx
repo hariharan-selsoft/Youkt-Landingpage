@@ -29,21 +29,21 @@ export default function FinalCta({ onNavigate, onOpenLogin }: FinalCtaProps) {
 
           {/* Spacious Centered Editorial CTA */}
           <div
-            className="relative px-6 sm:px-12 lg:px-16 py-16 sm:py-22 text-center"
+            className="relative px-5 sm:px-12 lg:px-16 py-12 sm:py-20 text-center"
             style={{
               backgroundImage:
                 "radial-gradient(ellipse 64% 60% at 50% 0%, rgba(255, 249, 230, 0.9) 0%, rgba(255, 255, 255, 0) 74%)",
             }}
           >
-            <div className="max-w-2xl mx-auto space-y-5">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF9E6] border border-[#F2D27A] text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A]">
+            <div className="max-w-2xl mx-auto space-y-4 sm:space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#FFF9E6] border border-[#F2D27A] text-[10px] sm:text-[10.5px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F6C445]" />
                 <span>Get Started</span>
               </div>
 
               <h2
-                className="text-[#141517] tracking-[-0.035em] leading-[1.06]"
-                style={{ fontSize: "clamp(2.15rem, 4.6vw, 3.65rem)" }}
+                className="text-[#141517] tracking-[-0.035em] leading-[1.08]"
+                style={{ fontSize: "clamp(1.85rem, 4.6vw, 3.65rem)" }}
               >
                 <span className="font-bold block">From job order to hire,</span>
                 <span className="font-editorial-serif text-[#8B640A] block mt-0.5">

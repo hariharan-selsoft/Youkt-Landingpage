@@ -261,18 +261,18 @@ export default function Resources(_props: ResourcesProps) {
       className="relative w-full text-[#141517] scroll-mt-20 bg-white"
     >
       {/* 1. CLEAN MINIMAL RESOURCES LIST */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#EAE6DF]">
+      <section className="py-14 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#EAE6DF]">
         <div className="max-w-[1040px] mx-auto">
           {/* Clean Editorial Split Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
             <ScrollPlacingItem yOffset={14}>
-              <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-2.5">
+              <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F6C445]" />
                 <span>Resources</span>
               </div>
               <h2
                 className="text-[#141517] tracking-[-0.03em] leading-[1.08]"
-                style={{ fontSize: "clamp(1.9rem, 3.8vw, 2.85rem)" }}
+                style={{ fontSize: "clamp(1.75rem, 3.8vw, 2.85rem)" }}
               >
                 <span className="font-bold">Guides, Security &amp; </span>
                 <span className="font-editorial-serif text-[#8B640A]">
@@ -282,7 +282,7 @@ export default function Resources(_props: ResourcesProps) {
             </ScrollPlacingItem>
 
             <ScrollPlacingItem delay={0.06} yOffset={14} className="max-w-xs">
-              <p className="text-sm text-[#5E6168] leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#5E6168] leading-relaxed">
                 Practical playbooks, security briefs, and integration setup
                 guides for your team.
               </p>
@@ -290,7 +290,7 @@ export default function Resources(_props: ResourcesProps) {
           </div>
 
           {/* Minimal Underline Category Tabs */}
-          <div className="flex items-center gap-6 border-b border-[#EAE6DF] mb-8 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-4 sm:gap-6 border-b border-[#EAE6DF] mb-6 sm:mb-8 overflow-x-auto no-scrollbar pb-0.5">
             {[
               { id: "guide" as const, label: "Product Guides", count: "5" },
               { id: "security" as const, label: "Security & AI", count: "2" },

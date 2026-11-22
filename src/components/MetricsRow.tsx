@@ -10,28 +10,28 @@ export default function MetricsRow() {
   return (
     <section
       aria-label="Core Workspace Highlights"
-      className="w-full py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF8F5]"
+      className="w-full py-14 sm:py-24 px-4 sm:px-6 lg:px-8 bg-[#FAF8F5]"
     >
       <div className="max-w-[1140px] mx-auto">
-        <div className="text-center max-w-xl mx-auto mb-14">
+        <div className="text-center max-w-xl mx-auto mb-10 sm:mb-14">
           <ScrollPlacingItem yOffset={14}>
             <h2
               className="text-[#141517] tracking-[-0.03em] leading-[1.12] mb-3"
-              style={{ fontSize: "clamp(1.95rem, 4vw, 3rem)" }}
+              style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
             >
               <span className="font-bold">Built for Clear, </span>
               <span className="font-editorial-serif text-[#8B640A]">
                 Controlled Hiring.
               </span>
             </h2>
-            <p className="text-sm sm:text-[15px] text-[#5E6168] leading-relaxed">
+            <p className="text-xs sm:text-[15px] text-[#5E6168] leading-relaxed">
               Keep your client accounts, candidate pipelines, and team reviews
               organized without losing control.
             </p>
           </ScrollPlacingItem>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 items-stretch">
           <ScrollParallaxLift fromY={26} toY={-12} className="lg:mt-4">
             <ScrollPlacingItem delay={0.04} yOffset={22} className="h-full">
               <div className="h-full rounded-[26px] bg-white border border-[#EAE6DF] p-6 sm:p-7 shadow-[0_14px_34px_-14px_rgba(20,21,23,0.08)] flex flex-col justify-between transition-all duration-300 lg:-rotate-[1.5deg] hover:rotate-0 hover:-translate-y-1 hover:border-[#F2D27A]">

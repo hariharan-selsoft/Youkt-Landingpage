@@ -1,45 +1,36 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Lenis from "lenis";
+import { ReactLenis, type LenisRef } from "lenis/react";
 import "lenis/dist/lenis.css";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
+  const lenisRef = useRef<LenisRef>(null);
 
   useEffect(() => {
-    // Initialize Lenis with responsive, buttery smooth inertia
-    const lenis = new Lenis({
-      duration: 1.2, // Responsive, silky smooth inertia
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth exponential deceleration
-      smoothWheel: true,
-      touchMultiplier: 1.5,
-      infinite: false,
-    });
-
-    lenisRef.current = lenis;
-
-    // Expose lenis instance globally for coordinate scrolling
-    if (typeof window !== "undefined") {
-      (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
-    }
-
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-      lenisRef.current = null;
-      if (typeof window !== "undefined") {
-        delete (window as unknown as { __lenis?: Lenis }).__lenis;
+    const updateGlobal = () => {
+      if (lenisRef.current?.lenis && typeof window !== "undefined") {
+        (window as unknown as { __lenis?: unknown }).__lenis = lenisRef.current.lenis;
       }
     };
+    updateGlobal();
+    const timer = setTimeout(updateGlobal, 100);
+    return () => clearTimeout(timer);
   }, []);
 
-  return <>{children}</>;
+  return (
+    <ReactLenis
+      ref={lenisRef}
+      root
+      options={{
+        lerp: 0.1,
+        smoothWheel: true,
+        wheelMultiplier: 1.0,
+        touchMultiplier: 1.5,
+      }}
+    >
+      {children}
+    </ReactLenis>
+  );
 }
+

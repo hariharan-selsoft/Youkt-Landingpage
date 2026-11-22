@@ -76,21 +76,21 @@ export default function AnalyticsBento({
   return (
     <section
       id="solutions"
-      className={`w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-y border-[#EAE6DF] scroll-mt-20 transition-colors duration-500 ${
+      className={`w-full py-14 sm:py-24 px-4 sm:px-6 lg:px-8 border-y border-[#EAE6DF] scroll-mt-20 transition-colors duration-500 ${
         highlighted ? "bg-[#FFF9E6]" : "bg-[#FAF8F5]"
       }`}
     >
       <div className="max-w-[1040px] mx-auto">
         {/* Clean Minimal Split Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-14">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-14">
           <ScrollPlacingItem yOffset={14} className="max-w-xl">
-            <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-3">
+            <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-2.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F6C445]" />
               <span>Solutions</span>
             </div>
             <h2
               className="text-[#141517] tracking-[-0.03em] leading-[1.08]"
-              style={{ fontSize: "clamp(1.95rem, 4vw, 3rem)" }}
+              style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
             >
               <span className="font-bold">Built for Every Role </span>
               <span className="font-editorial-serif text-[#8B640A]">

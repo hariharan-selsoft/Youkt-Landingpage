@@ -25,9 +25,12 @@ export const FeatureStaggerDeck: React.FC<FeatureStaggerDeckProps> = ({
   useEffect(() => {
     const updateDimensions = () => {
       const width = typeof window !== "undefined" ? window.innerWidth : 1200;
-      if (width < 640) {
-        setCardSize(285);
-        setCardSpread(245);
+      if (width < 380) {
+        setCardSize(255);
+        setCardSpread(215);
+      } else if (width < 640) {
+        setCardSize(280);
+        setCardSpread(235);
       } else if (width < 1024) {
         setCardSize(330);
         setCardSpread(295);

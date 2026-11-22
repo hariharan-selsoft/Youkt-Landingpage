@@ -42,19 +42,19 @@ export default function FaqSection({ onOpenLogin }: FaqSectionProps) {
   return (
     <section
       id="resource-faq"
-      className="w-full py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#EAE6DF] scroll-mt-24"
+      className="w-full py-14 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-[#EAE6DF] scroll-mt-24"
     >
       <div className="max-w-[780px] mx-auto">
         {/* Clean Centered Minimal Header */}
-        <div className="text-center mb-12 sm:mb-14">
+        <div className="text-center mb-8 sm:mb-14">
           <ScrollPlacingItem yOffset={14}>
-            <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-3">
+            <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-2.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F6C445]" />
               <span>FAQ</span>
             </div>
             <h2
-              className="text-[#141517] tracking-[-0.03em] leading-[1.1] mb-3"
-              style={{ fontSize: "clamp(1.9rem, 3.6vw, 2.75rem)" }}
+              className="text-[#141517] tracking-[-0.03em] leading-[1.1] mb-2.5"
+              style={{ fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
             >
               <span className="font-bold">Common </span>
               <span className="font-editorial-serif text-[#8B640A]">

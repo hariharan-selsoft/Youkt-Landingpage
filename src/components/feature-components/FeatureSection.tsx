@@ -59,7 +59,7 @@ export const FeatureSection: React.FC<FeatureSectionProps> = () => {
       style={{ height: "600vh" }}
     >
       {/* Sticky Viewport pinned while scrolling through the cards */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden selection:bg-[#F6C445]/30 py-8 sm:py-12">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden selection:bg-[#F6C445]/30 py-4 sm:py-10">
         {/* Soft Yellow Ambient Glow */}
         <div
           aria-hidden="true"
@@ -71,7 +71,7 @@ export const FeatureSection: React.FC<FeatureSectionProps> = () => {
         />
 
         {/* Header Container */}
-        <div className="relative z-20 max-w-2xl mx-auto text-center px-4 mb-4 sm:mb-6 flex flex-col items-center">
+        <div className="relative z-20 max-w-2xl mx-auto text-center px-4 mb-2 sm:mb-6 flex flex-col items-center">
           <h2 className="text-[#141517] font-extrabold tracking-[-0.035em] leading-[1.08] text-balance text-2xl sm:text-3xl md:text-4xl">
             <span>Core Hiring </span>
             <span className="font-editorial-serif text-[#8B640A] font-normal block sm:inline">
