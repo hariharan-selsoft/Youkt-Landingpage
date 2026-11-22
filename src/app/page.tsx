@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import MetricsRow from "@/components/MetricsRow";
 import { FeatureSection } from "@/components/feature-components";
-import AnalyticsBento from "@/components/AnalyticsBento";
+import HowItWorks from "@/components/HowItWorks";
 import CopilotSection from "@/components/CopilotSection";
 import Resources from "@/components/Resources";
 import FaqSection from "@/components/FaqSection";
@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 const NAV_SECTIONS = [
   { id: "platform", label: "Platform" },
   { id: "features", label: "Features" },
-  { id: "solutions", label: "Solutions" },
+  { id: "how-it-works", label: "How It Works" },
   { id: "ai-automation", label: "AI & Automation" },
   { id: "resources", label: "Resources" },
 ];
@@ -27,12 +27,13 @@ export default function Home() {
   const isScrollingProgrammatically = useRef<boolean>(false);
 
   const scrollToSection = useCallback((targetId: string) => {
-    if (NAV_SECTIONS.some((s) => s.id === targetId)) {
-      setActiveSection(targetId);
+    const resolvedId = targetId === "solutions" ? "how-it-works" : targetId;
+    if (NAV_SECTIONS.some((s) => s.id === resolvedId)) {
+      setActiveSection(resolvedId);
     }
     isScrollingProgrammatically.current = true;
 
-    const el = document.getElementById(targetId);
+    const el = document.getElementById(resolvedId);
     if (el) {
       const navOffset = 88;
       const bodyRect = document.body.getBoundingClientRect().top;
@@ -103,9 +104,9 @@ export default function Home() {
         {/* 2. Features — Interactive Staggered Pillars Deck */}
         <FeatureSection onNavigate={scrollToSection} />
 
-        {/* 3. Solutions — By Team + Team Insights */}
-        <AnalyticsBento
-          highlighted={highlightedId === "solutions"}
+        {/* 3. How It Works — 8-Step Modern Hiring Workflow */}
+        <HowItWorks
+          highlighted={highlightedId === "how-it-works"}
           onNavigate={scrollToSection}
         />
 

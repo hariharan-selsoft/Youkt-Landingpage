@@ -63,7 +63,7 @@ export default function Navbar({
   const navLinks = [
     { id: "platform", label: "Platform" },
     { id: "features", label: "Features" },
-    { id: "solutions", label: "Solutions" },
+    { id: "how-it-works", label: "How It Works" },
     { id: "ai-automation", label: "AI & Automation" },
     { id: "resources", label: "Resources" },
   ];

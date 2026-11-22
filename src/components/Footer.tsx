@@ -150,10 +150,10 @@ export default function Footer({ onNavigate, onOpenLogin }: FooterProps) {
                 <li>
                   <button
                     type="button"
-                    onClick={() => onNavigate?.("solutions")}
+                    onClick={() => onNavigate?.("how-it-works")}
                     className="hover:text-[#141517] transition-colors cursor-pointer"
                   >
-                    Solutions
+                    How It Works
                   </button>
                 </li>
                 <li>
