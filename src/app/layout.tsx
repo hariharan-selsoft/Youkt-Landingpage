@@ -15,6 +15,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="antialiased bg-[#FFFFFF] text-[#141517] min-h-screen selection:bg-[#F6C445]/35 selection:text-[#141517]">
         <SmoothScroll>{children}</SmoothScroll>
       </body>

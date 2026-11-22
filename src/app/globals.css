@@ -82,6 +82,12 @@
   }
 }
 
+/* Modern High-End Display Typography for YOUKT Brand Wordmark */
+.font-brand-wordmark {
+  font-family: "Outfit", "Plus Jakarta Sans", "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+}
+
 /* Editorial Serif-Italic Accent (matches reference display contrast) */
 .font-editorial-serif {
   font-family: "Instrument Serif", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, Cambria, serif;

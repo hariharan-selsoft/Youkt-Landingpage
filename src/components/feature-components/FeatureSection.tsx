@@ -72,21 +72,12 @@ export const FeatureSection: React.FC<FeatureSectionProps> = () => {
 
         {/* Header Container */}
         <div className="relative z-20 max-w-2xl mx-auto text-center px-4 mb-4 sm:mb-6 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 text-[11px] font-mono font-bold uppercase tracking-[0.14em] text-[#8B640A] mb-2 bg-[#FFF9E6] px-3 py-1 rounded-full border border-[#F2D27A]/60">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F6C445]" />
-            <span>Interactive Module Showcase</span>
-          </div>
-
-          <h2 className="text-[#141517] font-extrabold tracking-[-0.035em] leading-[1.08] text-balance mb-2 text-2xl sm:text-3xl md:text-4xl">
+          <h2 className="text-[#141517] font-extrabold tracking-[-0.035em] leading-[1.08] text-balance text-2xl sm:text-3xl md:text-4xl">
             <span>Core Hiring </span>
             <span className="font-editorial-serif text-[#8B640A] font-normal block sm:inline">
               Solutions.
             </span>
           </h2>
-
-          <p className="text-xs sm:text-[14px] text-[#5E6168] max-w-[460px] leading-relaxed">
-            Scroll down to explore all hiring modules. Cards transition seamlessly through the workflow.
-          </p>
         </div>
 
         {/* Interactive Staggered Features Deck (Full-bleed edge-to-edge, scroll driven) */}
